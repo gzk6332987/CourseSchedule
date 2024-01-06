@@ -1,0 +1,421 @@
+course_schedule:
+  # 排课概率probability(0为必修课, 1为物理历史, 2为选课(不包含4走班), 3为副科, 4为走班)
+  - 1:
+      verbose:
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 1
+        4: 2
+  - 2:
+      verbose:
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 1
+        4: 2
+  - 3:
+      verbose:
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 2
+        4: 2
+  - 4:
+      verbose:
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 5
+        4: 2
+  - 5:
+      verbose:
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 5
+        4: 2
+  - 6:
+      verbose:
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 5
+        4: 2
+  - 7:
+      verbose:
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 5
+        4: 2
+  - 8:
+      verbose:
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 5
+        4: 2
+  - 9:
+      verbose:
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 6
+        4: 2
+  - 10:
+      verbose: 晚一
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 10
+        4: 2
+  - 11:
+      verbose: 晚二
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 0
+        4: 2
+  - 12:
+      verbose: 晚三
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 0
+        4: 2
+  - 13:
+      verbose: 晚四
+      probability:
+        0: 3
+        1: 2
+        2: 1
+        3: 0
+        4: 2
+
+classes:
+  # 文科mode=0, 理科mode=1
+  - 101:
+      mode: 1
+      teachers:
+        语文: 李四
+        英语: 无名氏
+        数学: 张三
+        物理: 有名字
+        化学: 化学人
+        选课: 选课人
+        政治: 政治人
+        地理: 地理人
+        生物: 生物人
+        历史: 历史人
+        体育: 体育人
+        美术: 美术人
+        音乐: 音乐人
+        通用技术: 通用技术人
+        信息技术: 信息技术人
+        心理健康: 心理健康人
+        生命安全: 生命安全人
+        劳动教育: 劳动教育人
+        自习: 自习人
+        合格考1: 合格考1人
+        合格考2: 合格考2人
+        班团德育活动: 班团德育活动人
+        升旗: 升旗人
+  - 102:
+      mode: 1
+      teachers:
+        语文: 李四
+        英语: 无名氏
+        数学: 张三
+        物理: 有名字
+        化学: 化学人
+        选课: 选课人
+        政治: 政治人
+        地理: 地理人
+        生物: 生物人
+        历史: 历史人
+        体育: 体育人
+        美术: 美术人
+        音乐: 音乐人
+        通用技术: 通用技术人
+        信息技术: 信息技术人
+        心理健康: 心理健康人
+        生命安全: 生命安全人
+        劳动教育: 劳动教育人
+        自习: 自习人
+        合格考1: 合格考1人
+        合格考2: 合格考2人
+        班团德育活动: 班团德育活动人
+        升旗: 升旗人
+
+
+teachers:
+  # unwilling 为老师上课不愿意上第几节(按照1~13)
+  - name: 张三
+    course:
+      - 数学
+    unwilling: [ ]
+  - name: 李四
+    course:
+      - 语文
+    unwilling: [ ]
+  - name: 无名氏
+    course:
+      - 英语
+    unwilling: [ ]
+  - name: 有名字
+    course:
+      - 物理
+    unwilling: [ ]
+  - name: 化学人
+    course:
+      - 化学
+    unwilling: [ ]
+  - name: 选课人
+    course:
+      - 选课
+    unwilling: [ ]
+  - name: 政治人
+    course:
+      - 政治
+    unwilling: [ ]
+  - name: 地理人
+    course:
+      - 地理
+    unwilling: [ ]
+  - name: 生物人
+    course:
+      - 生物
+    unwilling: [ ]
+  - name: 历史人
+    course:
+      - 历史
+    unwilling: [ ]
+  - name: 体育人
+    course:
+      - 体育
+    unwilling: [ ]
+  - name: 美术人
+    course:
+      - 美术
+    unwilling: [ ]
+  - name: 音乐人
+    course:
+      - 音乐
+    unwilling: [ ]
+  - name: 通用技术人
+    course:
+      - 通用技术
+    unwilling: [ ]
+  - name: 信息技术人
+    course:
+      - 信息技术
+    unwilling: [ ]
+  - name: 心理健康人
+    course:
+      - 心理健康
+    unwilling: [ ]
+  - name: 生命安全人
+    course:
+      - 生命安全
+    unwilling: [ ]
+  - name: 劳动教育人
+    course:
+      - 劳动教育
+    unwilling: [ ]
+  - name: 自习人
+    course:
+      - 自习
+    unwilling: [ ]
+  - name: 合格考1人
+    course:
+      - 合格考1
+    unwilling: [ ]
+  - name: 合格考2人
+    course:
+      - 合格考2
+    unwilling: [ ]
+  - name: 班团德育活动人
+    course:
+      - 班团德育活动
+    unwilling: [ ]
+  - name: 升旗人
+    course:
+      - 升旗
+    unwilling: [ ]
+
+
+
+
+course_hours:
+  理科:
+    - 语文: 28
+    - 数学: 31
+    - 英语: 23
+    - 物理: 21
+    - 化学: 17
+    - 选课: 13
+    - 历史: 2
+    - 合格考1: 2
+    - 合格考2: 2
+    - 体育: 4
+    - 美术: 2
+    - 音乐: 1
+    - 通用技术: 0
+    - 信息技术: 2
+    - 心理健康: 1
+    - 生命安全: 1
+    - 劳动教育: 1
+    - 升旗: 2
+    - 班团德育活动: 1
+    - 自习: 9
+  文科:
+    - 语文: 24
+    - 数学: 31
+    - 英语: 28
+    - 物理: 32
+    - 化学: 29
+    - 选课: 25
+    - 历史: 12
+    - 合格考1: 4
+    - 合格考2: 2
+    - 体育: 4
+    - 美术: 4
+    - 音乐: 4
+    - 通用技术: 2
+    - 信息技术: 2
+    - 心理健康: 1
+    - 生命安全: 1
+    - 劳动教育: 1
+    - 升旗: 2
+    - 班团德育活动: 1
+    - 自习: 9
+
+
+courses:
+  # 基础科目配置(其中mode=0为必修,mode=1为物理或历史,mode=2为选课,mode=3为副科, mode=4是走班(对于理科mode=1, 见classes)),
+  # mode=5是特殊课程, 不给予自动排课, 手动排课
+
+  # max_daily_courses 为一天内这节课的最大值, 例如信息科一天最多一节
+  - 语文:
+      mode: 0
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 数学:
+      mode: 0
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 英语:
+      mode: 0
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 物理:
+      mode: 1
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 化学:
+      mode: 2
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 政治:
+      mode: 2
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 地理:
+      mode: 2
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 生物:
+      mode: 2
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 历史:
+      mode: 1
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 体育:
+      mode: 3
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 美术:
+      mode: 3
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 音乐:
+      mode: 3
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 通用技术:
+      mode: 3
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 信息技术:
+      mode: 3
+      prohibit: [ 1, 2, 3, 4 ]
+      max_daily_courses: 2
+  - 心理健康:
+      mode: 3
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 生命安全:
+      mode: 3
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 劳动教育:
+      mode: 3
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 自习:
+      mode: 3
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 班团德育活动:
+      mode: 5
+      prohibit: [ ]
+      max_daily_courses: 2
+  - 升旗:
+      mode: 5
+      prohibit: [ 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+      max_daily_courses: 2
+
+
+advance_decision:
+  # Decide the course in advance.
+  - 升旗:
+      time:
+        day: 1
+        course_time: 1
+      target_class: [ 101, 102 ]
+
+
+elective_courses:
+  - 选课: # 走班课(选课走班(例如生物))
+      mode: 41
+      teacher_name: 选课人
+      prohibit: [ ]
+      max_daily_courses: 2
+      relation_classes: [ 101 ]
+  - 合格考1:
+      mode: 4
+      teacher_name:
+      prohibit: [ ]
+      max_daily_courses: 3
+      relation_classes: [ ]
+  - 合格考2:
+      mode: 4
+      teacher_name:
+      prohibit: [ ]
+      max_daily_courses: 2
+      relation_classes: [ ]
