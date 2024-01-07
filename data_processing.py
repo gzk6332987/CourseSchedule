@@ -198,11 +198,13 @@ class Schedule:
             target_classes = []
             for _, each_class_obj in self.ALL_CLASSES.items():
                 target_classes.append(each_class_obj)
+
         # For each advanced scheduled courses.
         for course_time, course in advance_schedule:
             # For each class, add advanced scheduled courses to the target classes.
             for each_class_obj in target_classes:
                 each_class_obj.add_decided_course([(course_time, course)])
+                
         # Set teacher busy state.
         for course_time, course in advance_schedule:
             for each_class_obj in target_classes:

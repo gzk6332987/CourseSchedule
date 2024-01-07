@@ -34,9 +34,10 @@ def export_data(data, filename):
 
             # Set value.
             df.loc[now_row, cur_class_num] = cur_course.name
+            df.loc[now_row, "Day"] = cur_course_time.day
+            df.loc[now_row, "CourseTime"] = cur_course_time.course_time
             now_row += 1
 
     # Save.
     df.to_csv(filename, index=False, encoding="gbk")
-
 

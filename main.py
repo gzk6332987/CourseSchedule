@@ -39,6 +39,7 @@ course_schedule_depth = -1
 
 
 advance_decision_courses: list[tuple[modules.CourseTime, modules.Course]] = []
+advance_decision_classes: list[list[modules.Class]] = []
 
 
 def load():
@@ -171,6 +172,17 @@ def load():
                 advance_decision_courses.append(
                     (time_obj, ALL_COURSES.get(course_name))
                 )
+                # Add to advance_decision_classes
+                for target_class_num in value["target_class"]:
+                    try:
+                        advance_decision_classes[
+                            len(advance_decision_classes) - 1
+                        ].append(ALL_CLASSES[str(target_class_num)])
+                    except IndexError:
+                        advance_decision_classes.append([])
+                        advance_decision_classes[
+                            len(advance_decision_classes) - 1
+                        ].append(ALL_CLASSES[str(target_class_num)])
                 # Minus the number from COURSE_HOURS. (Include arts and science class type)
                 for course_type in COURSE_HOURS:
                     for course_name_dict in COURSE_HOURS[course_type]:
@@ -213,7 +225,11 @@ if __name__ == "__main__":
         classes_list.append(class_obj)
 
     # TODO: Schedule advanced decision courses.
-    course_schedule.advance_schedule(advance_decision_courses)
+    # Foreach target classes
+    for target_classes in advance_decision_classes:
+        course_schedule.advance_schedule(
+            advance_decision_courses, target_classes
+        )
 
     # Schedule.
     after_schedule_classes = course_schedule(classes_list, courses_list)

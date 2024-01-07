@@ -288,6 +288,9 @@ class JudgeRationality:
             return False, False
         if self.judge_daily_max_courses():
             return False, True
+        # TODO: I insert this sentence here, but I don't know whether it's right.
+        if self.judge_class_busy_time():
+            return False, False
         return True, False
 
     def judge_unwilling(self) -> bool:
