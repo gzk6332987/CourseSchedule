@@ -2,6 +2,7 @@ course_schedule:
   # 排课概率probability(0为必修课, 1为物理历史, 2为选课(不包含4走班), 3为副科, 4为走班)
   - 1:
       verbose:
+      is_lesson_continues: True
       probability:
         0: 3
         1: 2
@@ -10,6 +11,7 @@ course_schedule:
         4: 2
   - 2:
       verbose:
+      is_lesson_continues: True
       probability:
         0: 3
         1: 2
@@ -18,6 +20,7 @@ course_schedule:
         4: 2
   - 3:
       verbose:
+      is_lesson_continues: True
       probability:
         0: 3
         1: 2
@@ -26,6 +29,7 @@ course_schedule:
         4: 2
   - 4:
       verbose:
+      is_lesson_continues: False
       probability:
         0: 3
         1: 2
@@ -34,6 +38,7 @@ course_schedule:
         4: 2
   - 5:
       verbose:
+      is_lesson_continues: False
       probability:
         0: 3
         1: 2
@@ -42,6 +47,7 @@ course_schedule:
         4: 2
   - 6:
       verbose:
+      is_lesson_continues: True
       probability:
         0: 3
         1: 2
@@ -50,6 +56,7 @@ course_schedule:
         4: 2
   - 7:
       verbose:
+      is_lesson_continues: True
       probability:
         0: 3
         1: 2
@@ -58,6 +65,7 @@ course_schedule:
         4: 2
   - 8:
       verbose:
+      is_lesson_continues: True
       probability:
         0: 3
         1: 2
@@ -73,6 +81,7 @@ course_schedule:
         3: 6
         4: 2
   - 10:
+      # Note: course 10 and 11 are the normal courses in night!
       verbose: 晚一
       probability:
         0: 3
@@ -88,22 +97,7 @@ course_schedule:
         2: 1
         3: 0
         4: 2
-  - 12:
-      verbose: 晚三
-      probability:
-        0: 3
-        1: 2
-        2: 1
-        3: 0
-        4: 2
-  - 13:
-      verbose: 晚四
-      probability:
-        0: 3
-        1: 2
-        2: 1
-        3: 0
-        4: 2
+
 
 classes:
   # 文科mode=0, 理科mode=1
@@ -445,3 +439,13 @@ elective_courses:
       prohibit: [ ]
       max_daily_courses: 2
       relation_classes: [ ]
+
+
+utils:
+  # Decay factor is used to balance the probability of all courses.
+  decay_factor: 0.97
+
+  # Whether improve the probability of choosing the same course in two periods.
+  whether_increase_two_periods_probability: True
+  # Factor of improving the probability of choosing the same course in two periods.
+  two_periods_factor: 1.2

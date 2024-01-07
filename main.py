@@ -42,6 +42,21 @@ advance_decision_courses: list[tuple[modules.CourseTime, modules.Course]] = []
 advance_decision_classes: list[list[modules.Class]] = []
 
 
+def load_utils(data_utils: dict) -> float:
+    """
+    Load utils from settings.yaml.
+    Args:
+        data_utils (dict): The data which loaded from 'settings.yaml'.
+    Returns:
+        1. The two_periods_factor || None.
+    """
+    data_whether_increase_two_periods = data_utils.get("whether_increase_two_periods_probability")
+    data_factor = None
+    if data_whether_increase_two_periods:
+        data_factor = data_utils.get("two_periods_factor")
+    return data_factor
+
+
 def load():
     """_summary_
     A function to load the setting file and initialize the global variables.
@@ -61,8 +76,12 @@ def load():
         for course_name in course_info:
             course_name_list.append(course_name)
 
+        # other var
+        is_lesson_continue: list[tuple[int, bool]] = []
+
         for course in course_schedule_:
             for course_num, course_details in course.items():
+                is_lesson_continue.append((course_num, course_details.get("is_lesson_continues")))
                 course_probability[course_num] = course_details.get("probability")
 
         # Load classes, teachers, and courses
@@ -151,6 +170,9 @@ def load():
         # Load to course table
         COURSE_HOURS = data.get("course_hours")
 
+        # Load utils from settings.yaml
+        data_two_periods = load_utils(data.get("utils"))
+
         # Load 'advance_decision' courses
         # Then delete them from 'COURSE_HOURS'
         advance_decision_courses_from_data = data.get("advance_decision")
@@ -194,7 +216,7 @@ def load():
                                     "You had better check the 'advance_decision' in 'settings.yaml'"
                                 )
 
-        COURSE_TABLE = modules.CourseTable(course_schedule_depth, course_probability)
+        COURSE_TABLE = modules.CourseTable(course_schedule_depth, course_probability, data_two_periods, is_lesson_continue)
         for j in range(1, COURSE_TABLE.course_depth + 1):
             COURSE_TABLE.append_course()
         modules.initialize(ALL_COURSES, ALL_TEACHERS, ALL_CLASSES, COURSE_TABLE)
@@ -224,7 +246,7 @@ if __name__ == "__main__":
     for class_obj in ALL_CLASSES.values():
         classes_list.append(class_obj)
 
-    # TODO: Schedule advanced decision courses.
+    # Schedule advanced decision courses.
     # Foreach target classes
     for target_classes in advance_decision_classes:
         course_schedule.advance_schedule(

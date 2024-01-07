@@ -10,6 +10,7 @@ from modules import (
     Course,
     JudgeRationality,
     Class,
+    CourseTable,
     WEEKDAYS,
 )
 
@@ -112,7 +113,7 @@ class Schedule:
         self.ALL_COURSES = all_courses
         self.ALL_TEACHERS: dict[str, Teacher] = all_teachers  # busy state save in it!
         self.ALL_CLASSES: dict[str, Class] = all_classes
-        self.COURSE_TABLE = course_table
+        self.COURSE_TABLE: CourseTable = course_table
 
         self.decided_courses: list[tuple[CourseTime, Course]] = []
         self.now_decided_courses: list[tuple[CourseTime, Course]] = []
@@ -133,6 +134,7 @@ class Schedule:
         current_class,
         current_course_num,
         time: CourseTime,
+        last_course: Course = None,
     ):
         """
         :return: In sequence is the: chosen course, courses (the rest of the courses),
@@ -145,10 +147,29 @@ class Schedule:
         elements_with_index = list(enumerate(zip(courses, course_probability)))
         weights = [item[1][1] for item in elements_with_index]
         try:
+            weight_bk = weights.copy()
+
+            if last_course is not None:
+                # FIXME Find this course time in COURSE_TABLE.two_period_course_time_list
+                for (
+                    course_time,
+                    whether,
+                ) in self.COURSE_TABLE.two_period_course_time_list:
+                    if whether and course_time == time.course_time - 1:
+                        for index, weight in enumerate(weights):
+                            if courses[index].name == last_course.name:
+                                weights[index] = (
+                                    weight * self.COURSE_TABLE.two_period_factor
+                                )
+
             index, (chosen_course, _) = random.choices(
                 elements_with_index, weights=weights, k=1
             )[0]
             chosen_course: Course
+
+            # Set weight to weight_bk.
+            if last_course is not None:
+                weights = weight_bk.copy()
 
         except ValueError as e:
             print("weights", weights)
@@ -191,7 +212,6 @@ class Schedule:
     ):
         """
         Decide on some courses in advance.
-        TODO: 'target_classes' not yet enabled.
         """
         # If 'target_classes' is None, then set it to all classes.
         if target_classes is None:
@@ -204,7 +224,7 @@ class Schedule:
             # For each class, add advanced scheduled courses to the target classes.
             for each_class_obj in target_classes:
                 each_class_obj.add_decided_course([(course_time, course)])
-                
+
         # Set teacher busy state.
         for course_time, course in advance_schedule:
             for each_class_obj in target_classes:
@@ -320,6 +340,7 @@ class Schedule:
             # foreach work days
             vscode_stop = False
             for day in WEEKDAYS:
+                last_course: Course = None
                 for each_course_time in range(1, depth + 1):
                     # Init p list if each_course != 1
                     if each_course_time != 1:
@@ -340,7 +361,7 @@ class Schedule:
                     whether_skip_this_time = False
 
                     while choose_course is None:
-                        # TODO Judge whether the time had been scheduled.                        
+                        # Judge whether the time had been scheduled.
                         # Init JudgeRationality object.
                         judge_rationality = JudgeRationality(
                             None,
@@ -363,9 +384,15 @@ class Schedule:
                             choose_teacher,
                             p_before_set_to_zero,
                         ) = self._choose_from_courses(
-                            courses, p, target_class, each_course_time, current_time
+                            courses,
+                            p,
+                            target_class,
+                            each_course_time,
+                            current_time,
+                            last_course,
                         )
-                    
+                        last_course = choose_course
+
                     # If this time is skipped, then continue this for loop.
                     if whether_skip_this_time:
                         continue
