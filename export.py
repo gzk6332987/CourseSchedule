@@ -40,4 +40,3 @@ def export_data(data, filename):
 
     # Save.
     df.to_csv(filename, index=False, encoding="gbk")
-

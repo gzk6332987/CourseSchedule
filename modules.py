@@ -14,10 +14,15 @@ class Course:
     Course class.
     """
 
-    def __init__(self, name, mode: int, prohibit: list[int] | list = None):
+    def __init__(
+        self,
+        name,
+        mode: int,
+        prohibit: list[int] | list = None,
+    ):
         self.name = name
         # 基础科目配置(其中mode=0为必修,mode=1为物理或历史,mode=2为选课,mode=3为副科, mode=4是走班(对于理科mode=1, 见classes))
-        # mode=5 是特殊课程(such as 升旗), 需要手动安排课程(如单周一第一节 100% 为升旗)
+        # mode=5 是特殊课程(such as 升旗), 需要手动安排课程(已改!!)(如单周一第一节 100% 为升旗)
         self.mode = mode
         if prohibit is not None:
             self.prohibit = prohibit
@@ -55,16 +60,39 @@ class Course:
 
 
 class CourseTable(object):
-    def __init__(self, course_depth: int, course_probability: dict):
+    def __init__(
+        self,
+        course_depth: int,
+        course_probability: dict,
+        two_period_factor: float = None,
+        two_period_course_time_list: list[tuple[int, bool]] = None,
+    ):
+        # Cheek errors
+        if two_period_factor is not None and two_period_course_time_list is None:
+            raise ValueError(
+                "If you set two_period_factor, you must set two_period_course_time_list first!!!"
+            )
+        # ...
+
+        # Increase arguments two_period_factor.
+
         self.courses: list[Course] = []
         self.probability = []
         self.course_depth = course_depth
         self.course_probability = course_probability
 
+        self.two_period_factor = two_period_factor
+        self.two_period_course_time_list = two_period_course_time_list
+
         # private var
         self._now_course_num: int = 1
 
     def append_course(self):
+        """
+        Append a course to the list of courses.
+
+        This method appends a course to the list of courses and updates the course probability accordingly.
+        """
         # self.courses.append(course)
         self.probability.append(self.course_probability.get(self._now_course_num))
         self._now_course_num += 1
@@ -209,8 +237,9 @@ class Class(object):
         self.teachers[teacher_course] = teacher
 
     def add_decided_course(
-        self, decided_course: list[tuple[CourseTime, Course]],
-        whether_check: bool = True
+        self,
+        decided_course: list[tuple[CourseTime, Course]],
+        whether_check: bool = True,
     ) -> None:
         """
         Adds a decided course to the schedule.
@@ -224,14 +253,9 @@ class Class(object):
         Returns:
             None
         """
-        # TODO Remove this block is right?
-        # if decided_course == []:
-        #     raise ValueError("The decided course had not been sat!")
         for course_time, course in decided_course:
             if whether_check and self.decided_courses.get(course_time, False):
-                raise ValueError(
-                    f"The course time {course_time} had been decided!"
-                )
+                raise ValueError(f"The course time {course_time} had been decided!")
             self.decided_courses[course_time] = course
 
     def __str__(self) -> str:
@@ -269,7 +293,6 @@ class JudgeRationality:
         teacher: Teacher,
         time: CourseTime,
         current_class: Class,
-
         # self arguments
         all_classes: dict[str, Class],
     ):
@@ -288,7 +311,6 @@ class JudgeRationality:
             return False, False
         if self.judge_daily_max_courses():
             return False, True
-        # TODO: I insert this sentence here, but I don't know whether it's right.
         if self.judge_class_busy_time():
             return False, False
         return True, False
